@@ -52,7 +52,7 @@ class _MetronomePageState extends State<MetronomePage> {
           (timer) {
         i += 1;
 
-        //print(DateTime.now().second);
+        print(DateTime.now().second);
         print("i:  $i");
         if (i == 1) {
           setState(() {
@@ -233,94 +233,264 @@ class _MetronomePageState extends State<MetronomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  'BPM: ${_bpm.toInt()}',
+                  '${_bpm.toInt()}',
                   style: TextStyle(fontSize: 20.0),
                 ),
-                Slider(
-                  value: _bpm,
-                  min: 60.0,
-                  max: 240.0,
-                  onChanged: (value) {
-                    setState(() {
-                      _bpm = value;
-                      if (_isPlaying) {
-                        _timer.cancel();
-                        _timer = Timer.periodic(
-                            Duration(milliseconds: (60000 / _bpm).round()),
-                            (timer) {
-                          i += 1;
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _bpm += -1;
 
-                          //print(DateTime.now().second);
-                          print("i:  $i");
-                          if (i == 1) {
-                            setState(() {
-                              ball1 = Colors.green;
+                            if (_isPlaying) {
+                              _timer.cancel();
+                              _timer = Timer.periodic(
+                                  Duration(
+                                      milliseconds: (60000 / _bpm).round()),
+                                  (timer) {
+                                i += 1;
 
-                              ball1_ativo = true;
-                              ball2_ativo = false;
-                              ball3_ativo = false;
-                              ball4_ativo = false;
-                              ball4 = Colors.black;
+                                print(DateTime.now().second);
+                                print("i:  $i");
+                                if (i == 1) {
+                                  setState(() {
+                                    ball1 = Colors.green;
 
-                              ball2 = Colors.black;
-                              ball3 = Colors.black;
-                            });
-                            _audioCache.setVolume(1);
-                          } else {
-                            _audioCache.setVolume(0.2);
-                          }
-                          if (i == 4) {
-                            setState(() {
-                              i = 0;
-                              ball4 = Colors.green;
-                              ball1 = Colors.black;
-                              ball2 = Colors.black;
-                              ball3 = Colors.black;
+                                    ball1_ativo = true;
+                                    ball2_ativo = false;
+                                    ball3_ativo = false;
+                                    ball4_ativo = false;
+                                    ball4 = Colors.black;
 
-                              ball1_ativo = false;
-                              ball2_ativo = false;
-                              ball3_ativo = false;
-                              ball4_ativo = true;
-                            });
-                          }
-                          if (i == 2) {
-                            setState(() {
-                              ball2 = Colors.green;
-                              ball4 = Colors.black;
-                              ball1 = Colors.black;
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.black;
+                                  });
+                                  _audioCache.setVolume(1);
+                                } else {
+                                  _audioCache.setVolume(0.2);
+                                }
+                                if (i == 4) {
+                                  setState(() {
+                                    i = 0;
+                                    ball4 = Colors.green;
+                                    ball1 = Colors.black;
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.black;
 
-                              ball3 = Colors.black;
+                                    ball1_ativo = false;
+                                    ball2_ativo = false;
+                                    ball3_ativo = false;
+                                    ball4_ativo = true;
+                                  });
+                                }
+                                if (i == 2) {
+                                  setState(() {
+                                    ball2 = Colors.green;
+                                    ball4 = Colors.black;
+                                    ball1 = Colors.black;
 
-                              ball1_ativo = false;
-                              ball2_ativo = true;
-                              ball3_ativo = false;
-                              ball4_ativo = false;
-                            });
-                          }
-                          if (i == 3) {
-                            setState(() {
-                              ball4 = Colors.black;
-                              ball1 = Colors.black;
-                              ball2 = Colors.black;
-                              ball3 = Colors.green;
+                                    ball3 = Colors.black;
 
-                              ball1_ativo = false;
-                              ball2_ativo = false;
-                              ball3_ativo = true;
-                              ball4_ativo = false;
-                            });
-                          }
-                          _audioCache.play(AssetSource(
-                              "metronome_tick.mp3")); // Replace this with your metronome sound file
-                          _audioCache.stop();
-                        });
-                      }
-                    });
-                  },
-                ),
-                Text(
-                  'BPM: ${_bpm.toInt()}',
-                  style: TextStyle(fontSize: 20.0),
+                                    ball1_ativo = false;
+                                    ball2_ativo = true;
+                                    ball3_ativo = false;
+                                    ball4_ativo = false;
+                                  });
+                                }
+                                if (i == 3) {
+                                  setState(() {
+                                    ball4 = Colors.black;
+                                    ball1 = Colors.black;
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.green;
+
+                                    ball1_ativo = false;
+                                    ball2_ativo = false;
+                                    ball3_ativo = true;
+                                    ball4_ativo = false;
+                                  });
+                                }
+                                _audioCache.play(AssetSource(
+                                    "metronome_tick.mp3")); // Replace this with your metronome sound file
+                                _audioCache.stop();
+                              });
+                            }
+                          });
+                        },
+                        child: Text("-")),
+                    Container(
+                      width: 200,
+                      child: Slider(
+                        divisions: 180,
+                        value: _bpm,
+                        min: 60.0,
+                        max: 240.0,
+                        onChanged: (value) {
+                          print("value mudado");
+                          setState(() {
+                            _bpm = value;
+                            if (_isPlaying) {
+                              _timer.cancel();
+                              _timer = Timer.periodic(
+                                  Duration(
+                                      milliseconds: (60000 / _bpm).round()),
+                                  (timer) {
+                                i += 1;
+                                print(DateTime.now().second);
+
+                                //print(DateTime.now().second);
+                                print("i:  $i");
+                                if (i == 1) {
+                                  setState(() {
+                                    ball1 = Colors.green;
+
+                                    ball1_ativo = true;
+                                    ball2_ativo = false;
+                                    ball3_ativo = false;
+                                    ball4_ativo = false;
+                                    ball4 = Colors.black;
+
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.black;
+                                  });
+                                  _audioCache.setVolume(1);
+                                } else {
+                                  _audioCache.setVolume(0.2);
+                                }
+                                if (i == 4) {
+                                  setState(() {
+                                    i = 0;
+                                    ball4 = Colors.green;
+                                    ball1 = Colors.black;
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.black;
+
+                                    ball1_ativo = false;
+                                    ball2_ativo = false;
+                                    ball3_ativo = false;
+                                    ball4_ativo = true;
+                                  });
+                                }
+                                if (i == 2) {
+                                  setState(() {
+                                    ball2 = Colors.green;
+                                    ball4 = Colors.black;
+                                    ball1 = Colors.black;
+
+                                    ball3 = Colors.black;
+
+                                    ball1_ativo = false;
+                                    ball2_ativo = true;
+                                    ball3_ativo = false;
+                                    ball4_ativo = false;
+                                  });
+                                }
+                                if (i == 3) {
+                                  setState(() {
+                                    ball4 = Colors.black;
+                                    ball1 = Colors.black;
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.green;
+
+                                    ball1_ativo = false;
+                                    ball2_ativo = false;
+                                    ball3_ativo = true;
+                                    ball4_ativo = false;
+                                  });
+                                }
+                                _audioCache.play(AssetSource(
+                                    "metronome_tick.mp3")); // Replace this with your metronome sound file
+                                _audioCache.stop();
+                              });
+                            }
+                          });
+                        },
+                      ),
+                    ),
+                    ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _bpm += 1;
+
+                            if (_isPlaying) {
+                              _timer.cancel();
+                              _timer = Timer.periodic(
+                                  Duration(
+                                      milliseconds: (60000 / _bpm).round()),
+                                  (timer) {
+                                i += 1;
+
+                                print(DateTime.now().second);
+                                print("i:  $i");
+                                if (i == 1) {
+                                  setState(() {
+                                    ball1 = Colors.green;
+
+                                    ball1_ativo = true;
+                                    ball2_ativo = false;
+                                    ball3_ativo = false;
+                                    ball4_ativo = false;
+                                    ball4 = Colors.black;
+
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.black;
+                                  });
+                                  _audioCache.setVolume(1);
+                                } else {
+                                  _audioCache.setVolume(0.2);
+                                }
+                                if (i == 4) {
+                                  setState(() {
+                                    i = 0;
+                                    ball4 = Colors.green;
+                                    ball1 = Colors.black;
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.black;
+
+                                    ball1_ativo = false;
+                                    ball2_ativo = false;
+                                    ball3_ativo = false;
+                                    ball4_ativo = true;
+                                  });
+                                }
+                                if (i == 2) {
+                                  setState(() {
+                                    ball2 = Colors.green;
+                                    ball4 = Colors.black;
+                                    ball1 = Colors.black;
+
+                                    ball3 = Colors.black;
+
+                                    ball1_ativo = false;
+                                    ball2_ativo = true;
+                                    ball3_ativo = false;
+                                    ball4_ativo = false;
+                                  });
+                                }
+                                if (i == 3) {
+                                  setState(() {
+                                    ball4 = Colors.black;
+                                    ball1 = Colors.black;
+                                    ball2 = Colors.black;
+                                    ball3 = Colors.green;
+
+                                    ball1_ativo = false;
+                                    ball2_ativo = false;
+                                    ball3_ativo = true;
+                                    ball4_ativo = false;
+                                  });
+                                }
+                                _audioCache.play(AssetSource(
+                                    "metronome_tick.mp3")); // Replace this with your metronome sound file
+                                _audioCache.stop();
+                              });
+                            }
+                          });
+                        },
+                        child: Text("+")),
+                  ],
                 ),
                 SizedBox(height: 20.0),
                 FloatingActionButton(
