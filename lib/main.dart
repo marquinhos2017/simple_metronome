@@ -134,115 +134,52 @@ class _MetronomePageState extends State<MetronomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Simple Metronomo'),
+        elevation: 0,
+        backgroundColor: Color(0xffF2CC8F),
+        title: Text(''),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                  width: 60,
-                  height: 60,
-                  decoration: ball1_ativo
-                      ? BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: RadialGradient(colors: [
-                            Color.fromARGB(255, 96, 100, 180).withOpacity(0.2),
-                            Color.fromARGB(255, 92, 96, 190).withOpacity(0.2),
-                          ]), // Adjust the opacity here for the outer container
-                        )
-                      : null,
-                  child: Transform.scale(
-                    scale: 0.4,
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          color: Color(0xff989ce1), shape: BoxShape.circle),
+      body: Container(
+        color: Color(0xffF2CC8F),
+        child: Column(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 158,
+                  // color: Colors.orange,
+                  child: Text(
+                    '${_bpm.toInt()}',
+                    style: TextStyle(
+                      fontSize: 160,
+                      color: Color(0xff3E415B),
                     ),
-                  )),
-              Container(
-                  width: 60,
-                  height: 60,
-                  decoration: ball2_ativo
-                      ? BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: RadialGradient(colors: [
-                            Color.fromARGB(255, 96, 100, 180).withOpacity(0.2),
-                            Color.fromARGB(255, 92, 96, 190).withOpacity(0.2),
-                          ]), // Adjust the opacity here for the outer container
-                        )
-                      : null,
-                  child: Transform.scale(
-                    scale: 0.4,
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          color: Color(0xff989ce1), shape: BoxShape.circle),
-                    ),
-                  )),
-              Container(
-                  width: 60,
-                  height: 60,
-                  decoration: ball3_ativo
-                      ? BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: RadialGradient(colors: [
-                            Color.fromARGB(255, 96, 100, 180).withOpacity(0.2),
-                            Color.fromARGB(255, 92, 96, 190).withOpacity(0.2),
-                          ]), // Adjust the opacity here for the outer container
-                        )
-                      : null,
-                  child: Transform.scale(
-                    scale: 0.4,
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          color: Color(0xff989ce1), shape: BoxShape.circle),
-                    ),
-                  )),
-              Container(
-                  width: 60,
-                  height: 60,
-                  decoration: ball4_ativo
-                      ? BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: RadialGradient(colors: [
-                            Color.fromARGB(255, 96, 100, 180).withOpacity(0.2),
-                            Color.fromARGB(255, 92, 96, 190).withOpacity(0.2),
-                          ]), // Adjust the opacity here for the outer container
-                        )
-                      : null,
-                  child: Transform.scale(
-                    scale: 0.4,
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                          color: Color(0xff989ce1), shape: BoxShape.circle),
-                    ),
-                  )),
-            ],
-          ),
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  '${_bpm.toInt()}',
-                  style: TextStyle(fontSize: 20.0),
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Text(
+                  "bpm",
+                  style: TextStyle(color: Color(0xff3E415B)),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 120,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 70),
+              child: Container(
+                //color: Colors.orange,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ElevatedButton(
+                    FloatingActionButton(
+                        mini: true,
+                        backgroundColor: Color(0xff3E415B),
                         onPressed: () {
                           setState(() {
-                            _bpm += -1;
+                            if (_bpm > 60) {
+                              _bpm += -1;
+                            }
 
                             if (_isPlaying) {
                               _timer.cancel();
@@ -319,10 +256,14 @@ class _MetronomePageState extends State<MetronomePage> {
                             }
                           });
                         },
-                        child: Text("-")),
+                        child: Icon(
+                          Icons.remove,
+                          color: Color(0xffF2CC8F),
+                        )),
                     Container(
-                      width: 200,
+                      width: 150,
                       child: Slider(
+                        activeColor: Color(0xff3E415B),
                         divisions: 180,
                         value: _bpm,
                         min: 60.0,
@@ -409,10 +350,14 @@ class _MetronomePageState extends State<MetronomePage> {
                         },
                       ),
                     ),
-                    ElevatedButton(
+                    FloatingActionButton(
+                        mini: true,
+                        backgroundColor: Color(0xff3E415B),
                         onPressed: () {
                           setState(() {
-                            _bpm += 1;
+                            if (_bpm < 240) {
+                              _bpm += 1;
+                            }
 
                             if (_isPlaying) {
                               _timer.cancel();
@@ -489,19 +434,122 @@ class _MetronomePageState extends State<MetronomePage> {
                             }
                           });
                         },
-                        child: Text("+")),
+                        child: Icon(
+                          Icons.add,
+                          color: Color(0xffF2CC8F),
+                        )),
                   ],
                 ),
-                SizedBox(height: 20.0),
-                FloatingActionButton(
-                  onPressed: _startStopMetronome,
-                  tooltip: _isPlaying ? 'Stop' : 'Start',
-                  child: Icon(_isPlaying ? Icons.stop : Icons.play_arrow),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 60.0),
+            Container(
+              height: 150,
+              width: 150,
+              child: FloatingActionButton(
+                elevation: 0,
+                backgroundColor: Color(0xffE07A5F),
+                onPressed: _startStopMetronome,
+                tooltip: _isPlaying ? 'Stop' : 'Start',
+                child:
+                    Icon(_isPlaying ? Icons.stop : Icons.play_arrow, size: 100),
+              ),
+            ),
+            /*       Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                    width: 60,
+                    height: 60,
+                    decoration: ball1_ativo
+                        ? BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(colors: [
+                              Color.fromARGB(255, 96, 100, 180)
+                                  .withOpacity(0.2),
+                              Color.fromARGB(255, 92, 96, 190).withOpacity(0.2),
+                            ]), // Adjust the opacity here for the outer container
+                          )
+                        : null,
+                    child: Transform.scale(
+                      scale: 0.4,
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: Color(0xff989ce1), shape: BoxShape.circle),
+                      ),
+                    )),
+                Container(
+                    width: 60,
+                    height: 60,
+                    decoration: ball2_ativo
+                        ? BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(colors: [
+                              Color.fromARGB(255, 96, 100, 180)
+                                  .withOpacity(0.2),
+                              Color.fromARGB(255, 92, 96, 190).withOpacity(0.2),
+                            ]), // Adjust the opacity here for the outer container
+                          )
+                        : null,
+                    child: Transform.scale(
+                      scale: 0.4,
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: Color(0xff989ce1), shape: BoxShape.circle),
+                      ),
+                    )),
+                Container(
+                    width: 60,
+                    height: 60,
+                    decoration: ball3_ativo
+                        ? BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(colors: [
+                              Color.fromARGB(255, 96, 100, 180)
+                                  .withOpacity(0.2),
+                              Color.fromARGB(255, 92, 96, 190).withOpacity(0.2),
+                            ]), // Adjust the opacity here for the outer container
+                          )
+                        : null,
+                    child: Transform.scale(
+                      scale: 0.4,
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: Color(0xff989ce1), shape: BoxShape.circle),
+                      ),
+                    )),
+                Container(
+                    width: 60,
+                    height: 60,
+                    decoration: ball4_ativo
+                        ? BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: RadialGradient(colors: [
+                              Color.fromARGB(255, 96, 100, 180)
+                                  .withOpacity(0.2),
+                              Color.fromARGB(255, 92, 96, 190).withOpacity(0.2),
+                            ]), // Adjust the opacity here for the outer container
+                          )
+                        : null,
+                    child: Transform.scale(
+                      scale: 0.4,
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        decoration: BoxDecoration(
+                            color: Color(0xff989ce1), shape: BoxShape.circle),
+                      ),
+                    )),
+              ],
+            ),*/
+          ],
+        ),
       ),
     );
   }
